@@ -1,6 +1,5 @@
 #ifndef PICO_TIMER_H
 #define PICO_TIMER_H
-#include <stdio.h>
 #include "pico/stdlib.h"
 
 #define TL 0x40054024
