@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "pico/stdlib.h"
 
 #define TL 0x40054024
