@@ -1,26 +1,23 @@
+#include <stdio.h>
 #include "pico/stdlib.h"
-#include "hardware/adc.h"
+#include "pico_timer.h"
 
 int main() {
     stdio_init_all();
-    adc_init();
-    adc_select_input(0);  // use ADC0
+    sleep_ms(2000); // Give time for USB to settle
 
-    // First measurement
-    absolute_time_t t1 = get_absolute_time();
-    uint16_t val1 = adc_read();
+    while (1) {
+        uint64_t t0 = read_timer_raw_macro();
+        sleep_us(10);
+        uint64_t t1 = read_timer_raw_macro();
 
-    // Simulate delay or do something else
-    sleep_ms(100);  // pretend you're waiting for next measurement
+        uint64_t dt = t1 - t0;
+        printf("Elapsed time: %llu microseconds\n", dt);  // Should be ~100–500 µs
 
-    // Second measurement
-    absolute_time_t t2 = get_absolute_time();
-    uint16_t val2 = adc_read();
+        sleep_ms(1000);
+    }
 
-    // Calculate time difference in microseconds
-    int64_t delta_us = absolute_time_diff_us(t1, t2);
 
-    printf("Time between measurements: %lld microseconds\n", delta_us);
 
-    return 0;
-}
+
+    
