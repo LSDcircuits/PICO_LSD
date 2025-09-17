@@ -29,24 +29,35 @@
 
 // raw sensor data from register
 typedef struct {
-}
+// gyro_data_raw 
+    int16_t gx, gy, gz;
+    int16_t ax, ay, az;
+} imu_raw;
+
+typedef struct {
+// time taken per measurment (microsecond)
+    uint64_t gx_t, gy_t, gz_t;
+    uint64_t ax_t, ay_t, az_t;
+} raw_time;
 
 
-//SPI header: MSB = 1 for read, 0 for write; remaining 7 bits = address */
 static inline void cs_low(void)  { gpio_put(PIN_CS, 0); }
 static inline void cs_high(void) { gpio_put(PIN_CS, 1); }
 
-
-
+//SPI header: MSB = 1 for read, 0 for write; remaining 7 bits = address */
+// this is used to wirte a byte so that the lsm6Ds3 knows its time to write or receive. 
 static void reg_write(uint8_t reg, uint8_t val) {
     uint8_t tx[2] = { (uint8_t)(reg & 0x7F), val };
     cs_low();  spi_write_blocking(IMU_SPI, tx, 2);  cs_high();
 }
+
+// this is used to read 
 static void reg_read(uint8_t reg, uint8_t *dst, size_t n) {
     uint8_t hdr = (uint8_t)(reg | 0x80);
     cs_low();  spi_write_blocking(IMU_SPI, &hdr, 1);
     spi_read_blocking(IMU_SPI, 0x00, dst, n);  cs_high();
 }
+
 static void imu_init(void) {
     // SPI @10 MHz, SPI mode 3 (CPOL=1, CPHA=1), 8-bit, MSB first
     spi_init(IMU_SPI, 10 * 1000 * 1000);
