@@ -70,7 +70,7 @@ static void imu_init(void) {
     // Accel: ODR=6.66 kHz (0b1010<<4), FS=±16 g (0b01<<2) => 0xA4
     reg_write(CTRL1_XL, 0xA4);
 }
-
+// this needs to be made into a void loop to be used to point to the stuct file.
 static void imu_set(void) {
     stdio_init_all();
     sleep_ms(200);
