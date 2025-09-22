@@ -85,6 +85,9 @@ static void imu_set(void) {
     uint8_t status;
     uint8_t raw[12];
     int16_t gx, gy, gz, ax, ay, az;
+
+    // ca
+    int16_t Gx, Gy, Gz, Ax, Ay, Az
     static float angle_x = 0, angle_y = 0, angle_z = 0;
     float   gx_dps, gy_dps, gz_dps, ax_ms2, ay_ms2, az_ms2;
     float   gx_deg, gy_deg, gz_deg;
