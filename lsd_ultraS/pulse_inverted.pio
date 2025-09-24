@@ -1,0 +1,18 @@
+.program pulse_inverted
+
+.wrap_target
+    set pins, 0 
+    set pins, 1
+.wrap
+
+% c-sdk {
+void pulse_inverted_program_init(PIO pio, uint sm, uint offset, uint pin, float clkdiv) {
+    pio_gpio_init(pio, pin);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+    pio_sm_config c = pulse_program_get_default_config(offset);
+    sm_config_set_set_pins(&c, pin, 1);
+    sm_config_set_clkdiv(&c, clkdiv);
+    sm_config_set_out_shift(&c, false, false, 32); // optional, safe default
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
