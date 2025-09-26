@@ -1,20 +1,34 @@
 .program pulse
 .side_set 2 opt
-
-wrap_target:
+.wrap_target        ; 
+pulses:
     nop side 0b01 [1] ; PIN1 high, PIN2 low
     nop side 0b10 [1] ; PIN1 low, PIN2 high
-    jmp wrap_target
-
-.wrap_target
-.wrap
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b00 [1]
+stop:
+    jmp stop
+.wrap               ; ← marks the end of the loop
 
 % c-sdk {
 void pulse_program_init(PIO pio, uint sm, uint offset, uint pin_base, float clkdiv) {
     pio_gpio_init(pio, pin_base);
     pio_gpio_init(pio, pin_base + 1);
     pio_sm_set_consecutive_pindirs(pio, sm, pin_base, 2, true);
-
     pio_sm_config c = pulse_program_get_default_config(offset);
     sm_config_set_sideset_pins(&c, pin_base);
     sm_config_set_clkdiv(&c, clkdiv);
