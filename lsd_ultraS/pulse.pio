@@ -1,18 +1,24 @@
 .program pulse
+.side_set 2 opt
+
+wrap_target:
+    nop side 0b01 [1] ; PIN1 high, PIN2 low
+    nop side 0b10 [1] ; PIN1 low, PIN2 high
+    jmp wrap_target
 
 .wrap_target
-    set pins, 0 
-    set pins, 1 
 .wrap
 
 % c-sdk {
-void pulse_program_init(PIO pio, uint sm, uint offset, uint pin, float clkdiv) {
-    pio_gpio_init(pio, pin);
-    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+void pulse_program_init(PIO pio, uint sm, uint offset, uint pin_base, float clkdiv) {
+    pio_gpio_init(pio, pin_base);
+    pio_gpio_init(pio, pin_base + 1);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin_base, 2, true);
+
     pio_sm_config c = pulse_program_get_default_config(offset);
-    sm_config_set_set_pins(&c, pin, 1);
+    sm_config_set_sideset_pins(&c, pin_base);
     sm_config_set_clkdiv(&c, clkdiv);
-    sm_config_set_out_shift(&c, false, false, 32); // optional, safe default
+
     pio_sm_init(pio, sm, offset, &c);
 }
 %}
