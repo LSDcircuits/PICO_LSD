@@ -5,6 +5,8 @@
 #include "hardware/adc.h"
 #include "pulse.pio.h"  // side-set based dual-pulse generator
 
+
+
 int main() {
     stdio_init_all();
 
@@ -15,19 +17,21 @@ int main() {
 
     // ---- PIO Pulse Setup ----
     const uint PIN_BASE = 16;    // Using GPIO16 and GPIO17
-    const float pio_div = 625.0f;
+    const float pio_div = 781;
     PIO pio = pio0;
     uint sm = 0;
-
     uint offset = pio_add_program(pio, &pulse_program);
-    pulse_program_init(pio, sm, offset, PIN_BASE, pio_div);
-    pio_sm_set_enabled(pio, sm, true);
 
-    // ---- Main Loop ----
-    while (true) {
+    while (true){
+        pulse_program_init(pio, sm, offset, PIN_BASE, pio_div);
+        pio_sm_set_enabled(pio, sm, false);  
+        pio_sm_set_enabled(pio, sm, true);
+        sleep_ms(100);
         uint16_t raw = adc_read();                    // 0–4095
         uint32_t mv = (raw * 3300) / 4095;            // Convert to mV
         printf("ADC raw: %u, voltage: %u mV\n", raw, mv);
-        sleep_ms(10);  // Sampling delay
-    }
+        sleep_ms(1);  // Sampling delay
+        pio_sm_set_enabled(pio, sm, false);  
+        }        // ---- Main Loop ----
+
 }
