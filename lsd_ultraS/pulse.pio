@@ -1,28 +1,9 @@
 .program pulse
 .side_set 2 opt
-.wrap_target        ; 
-pulses:
+.wrap_target          ; loop start
     nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low, PIN2 high
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b00 [1]
-stop:
-    jmp stop
-.wrap               ; ← marks the end of the loop
+    nop side 0b10 [1] ; PIN1 low,  PIN2 high
+.wrap                 ; ← marks the end of the loop
 
 % c-sdk {
 void pulse_program_init(PIO pio, uint sm, uint offset, uint pin_base, float clkdiv) {
