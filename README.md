@@ -29,3 +29,13 @@ this file contains the logic used to get raw data from this IMU. working on:
 - making a library
 - getting different power modes and sensitivity
 - applying kallman filter & quaternions as additional fucntions
+
+
+4. lsd_ultraS c
+
+this file is used to make a ultrasonic sensor using the pico ADC,
+pio is set:
+make ISR define 8 pulses 
+make the ISR loop count down and - each iteration till 0 then stop 
+till isr is loaded again. 
+
