@@ -1,9 +1,20 @@
 .program pulse
 .side_set 2 opt
-.wrap_target          ; loop start
-    nop side 0b01 [1] ; PIN1 high, PIN2 low
-    nop side 0b10 [1] ; PIN1 low,  PIN2 high
-.wrap                 ; ← marks the end of the loop
+
+; The PIO waits for the CPU to provide a pulse count
+.wrap_target
+    pull block               ; block until CPU writes a word to TX FIFO
+    mov x, osr               ; copy that count into scratch register X
+
+loop:
+    nop      side 0b01 [1]   ; first half of pulse
+    nop      side 0b10 [1]   ; second half of pulse
+    jmp x--, loop           ; decrement X and loop if not zero
+    ; After finishing all pulses, notify CPU
+    mov isr, null             ; clear ISR (just to be safe)
+    set pindirs, 0            ; optionally release the pins (if needed)
+    push block                ; push ISR (0) to RX FIFO as completion flag
+.wrap
 
 % c-sdk {
 void pulse_program_init(PIO pio, uint sm, uint offset, uint pin_base, float clkdiv) {
@@ -13,7 +24,6 @@ void pulse_program_init(PIO pio, uint sm, uint offset, uint pin_base, float clkd
     pio_sm_config c = pulse_program_get_default_config(offset);
     sm_config_set_sideset_pins(&c, pin_base);
     sm_config_set_clkdiv(&c, clkdiv);
-
     pio_sm_init(pio, sm, offset, &c);
 }
 %}
