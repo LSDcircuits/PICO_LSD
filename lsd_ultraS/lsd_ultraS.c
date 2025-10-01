@@ -40,3 +40,8 @@ int main() {
         sleep_ms(10);  // 1 second delay between bursts
     }
 }
+
+// last update 8 pulse then read ADC, make software interrupt and use of cunter.
+// make ranges for minimal circuit --- fun not practical
+// make the ranges for the reliable - max distance. .. fak u if u reading this. ;) 
+// PIO causes minor brain damage - Lorenzo 
