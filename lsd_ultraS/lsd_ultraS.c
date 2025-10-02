@@ -37,7 +37,8 @@ int main() {
             uint64_t t1 = read_timer_raw_macro();
             uint64_t dt = t1 - t0;
             printf("raw=%u\n",raw);
-        }break;
+        }return dt;
+        
         pulse_setup();
         printf("Cycle complete. Waiting...\n\n");
         sleep_ms(10);  // 1 second delay between bursts
