@@ -3,12 +3,14 @@
 #include "hardware/pio.h"
 #include "hardware/adc.h"
 #include "pulse.pio.h"
+#include "pico_timer.h"
+#define min_v 10
 
 
 void pulse_setup(){
     // PIO setup
     const uint PIN_BASE = 16;
-    const float CLKDIV = 652.f;  // ≈ 100kHz
+    const float CLKDIV = 652.f;  // ≈ 40kHz
     PIO pio = pio0;
     uint sm = 0;
     uint offset = pio_add_program(pio, &pulse_program);
@@ -24,18 +26,19 @@ void pulse_setup(){
 
 int main() {
     stdio_init_all();
-    // Init ADC
     adc_init();
-    adc_gpio_init(26);  // GPIO26 = ADC0
+    adc_gpio_init(26); 
     adc_select_input(0);
     while (true) {
         pulse_setup();
-        for (int i = 0; i < 10; ++i) {
-            uint16_t raw = adc_read();
-            uint32_t mv = (raw * 3300) / 4095;
-            printf("ADC[%d]: raw=%u, voltage=%u mV\n", i, raw, mv);
-            sleep_ms(10);  // Sampling delay
-        }
+        uint64_t t0 = read_timer_raw_macro();
+        uint16_t raw = adc_read();
+        if ( raw < min_v){
+            uint64_t t1 = read_timer_raw_macro();
+            uint64_t dt = t1 - t0;
+            printf("raw=%u\n",raw);
+        }break;
+        pulse_setup();
         printf("Cycle complete. Waiting...\n\n");
         sleep_ms(10);  // 1 second delay between bursts
     }
