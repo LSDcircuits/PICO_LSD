@@ -4,13 +4,13 @@
 #include "hardware/adc.h"
 #include "pulse.pio.h"
 #include "pico_timer.h"
-#define min_v 10
+#define min_v 9
 
 
 void pulse_setup(){
     // PIO setup
     const uint PIN_BASE = 16;
-    const float CLKDIV = 652.f;  // ≈ 40kHz
+    const float CLKDIV = 625.f;  // ≈ 40kHz
     PIO pio = pio0;
     uint sm = 0;
     uint offset = pio_add_program(pio, &pulse_program);
@@ -19,9 +19,17 @@ void pulse_setup(){
     pio_sm_restart(pio, sm);
     pio_sm_put_blocking(pio, sm, 8);  // Send 50 pulse pairs
     pio_sm_set_enabled(pio, sm, true);
-    printf("Pulses triggered...\n");
+    //printf("Pulses triggered...\n");
     uint32_t done = pio_sm_get_blocking(pio, sm);
-    printf("Pulse sequence completed. PIO response: %u\n", done);
+    //printf("Pulse sequence completed. PIO response: %u\n", done);
+}
+
+uint16_t read_stable_adc(int samples) {
+    uint32_t sum = 0;
+    for (int i = 0; i < samples; i++) {
+        sum += adc_read();
+    }
+    return sum / samples;
 }
 
 int main() {
@@ -29,23 +37,33 @@ int main() {
     adc_init();
     adc_gpio_init(26); 
     adc_select_input(0);
-    while (true) {
+
+    while (1) {
+        uint64_t t1 = 0;
+        uint8_t raw = 10;
+        const int max_samples = 20000;
         pulse_setup();
         uint64_t t0 = read_timer_raw_macro();
-        uint16_t raw = adc_read();
-        if ( raw < min_v){
-            uint64_t t1 = read_timer_raw_macro();
-            uint64_t dt = t1 - t0;
-            printf("raw=%u\n",raw);
-        }return t1;
-        uint64_t dt = t1 - t0;
-        pulse_setup();
-        printf("Cycle complete. Waiting...\n\n");
-        sleep_ms(10);  // 1 second delay between bursts
+        for (int i = 0; i < max_samples; i++){
+            raw = read_stable_adc(2);
+            //sleep_us(1);
+            //printf("raw value = %u\n", raw);
+            if(raw < min_v){
+                t1 = read_timer_raw_macro();
+                //printf("Threshold crossed: raw=%u at dt=%llu us\n", raw, (t1 - t0));
+                float dt = (t1 - t0 - 200);
+                float distance = (dt * 0.0344)/2;
+                printf("distance = %.2f cm\n", distance);
+                break;
+            }
+        }
+        if (t1 == 0){
+            //printf("No threshold crossing detected\n");
+        }
+        sleep_ms(10);
     }
 }
+// it fucking works!!
+// now instead of taking away the time for pulses i should make a interrupt to the timer for a better stream. yay!
 
-// last update 8 pulse then read ADC, make software interrupt and use of cunter.
-// make ranges for minimal circuit --- fun not practical
-// make the ranges for the reliable - max distance. .. fak u if u reading this. ;) 
-// PIO causes minor brain damage - Lorenzo 
+
