@@ -5,13 +5,13 @@
 #include "pico/stdlib.h"
 #include "pwm.pio.h"
 
-
+// Constants
 #define CLOCK_FREQ 125000000  // RP2040 clock frequency (125 MHz)
 #define PWM_FREQ 50           // PWM frequency in Hz
-#define ADC_MAX 4000          // ADC maximum value
-#define NUM_SM 4              // Number of state machines (4)
-#define NUM_CHANNELS 4        // Number of ADC channels (3)
-#define PIO_NUMBER 2
+#define ADC_MAX 4000          // 12-bit ADC
+#define PIO_NUMBER 2          // We have pio0 and pio1 // total of 2 PIO USED
+#define NUM_SM 4              // Number of state machines per PIO
+
 
 // PWM Pin Assignments
 extern const uint PWM_PINS_PIO0[NUM_SM];
