@@ -20,6 +20,7 @@ void pio_pwm_set_period(PIO pio, uint sm, uint32_t Period) {
     pio_sm_set_enabled(pio, sm, true);                // Re-enable the state machine
 }
 
+// here the satic variables are fed from OSR to ISR
 void set_pwm_program(PIO pio, uint sm, uint offset, uint gpio, uint16_t Period) {
     pwm_program_init(pio, sm, offset, gpio);
     float clock_divider = 1000.0f;  // Set clock divider
