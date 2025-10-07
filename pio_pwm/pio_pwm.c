@@ -3,13 +3,6 @@
 #include "hardware/adc.h"
 #include "pwm_control.h"
 
-// Constants
-#define CLOCK_FREQ 125000000  // RP2040 clock frequency (125 MHz)
-#define PWM_FREQ 50           // PWM frequency in Hz
-#define ADC_MAX 4000          // 12-bit ADC
-#define NUM_SM 4              // Number of state machines per PIO
-#define PIO_NUMBER 2          // We have pio0 and pio1
-
 // Globals for constants
 static float cv;
 static uint16_t l_const, period;
