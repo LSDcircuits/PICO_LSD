@@ -35,12 +35,10 @@ uint16_t read_stable_adc(int samples) {
 
 
 // new loop interrupt used to start timer. previously no interrupt used. can save a uS maybe i thinki sued it
-// now make 2 libs , one for gpio and one for adc. 
+// ignore this im still in the making and not getting paid yooo.. jk its fun.. but goal is to:
+// not use ADC and only use GPIO, for pins use memory map i/o & interrup handler -> make to h file as a lib and never use it again muahaha 
 int main(){
     stdio_init_all();
-    adc_init();
-    adc_gpio_init(26); 
-    adc_select_input(0);
     while (1){
         uint64_t t1 = 0;
         uint8_t raw = 0;
