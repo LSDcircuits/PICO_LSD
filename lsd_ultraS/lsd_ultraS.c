@@ -34,7 +34,8 @@ uint16_t read_stable_adc(int samples) {
 }
 
 
-// new loop interrupt used to start timer. previously no interrupt used. can save a uS maybe
+// new loop interrupt used to start timer. previously no interrupt used. can save a uS maybe i thinki sued it
+// now make 2 libs , one for gpio and one for adc. 
 int main(){
     stdio_init_all();
     adc_init();
