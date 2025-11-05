@@ -4,13 +4,11 @@
 #include "hardware/adc.h"
 #include "pulse.pio.h"
 #include "pico_timer.h"
-#define min_v 9 
-#define n_samples 2000 // this is usee 
-
+#define min_v 9
 
 void pulse_setup(){
     // PIO setup
-    const uint PIN_BASE = 16;
+    const uint PIN_BASE = 28;
     const float CLKDIV = 625.f;  // ≈ 40kHz
     PIO pio = pio0;
     uint sm = 0;
@@ -18,12 +16,13 @@ void pulse_setup(){
     pulse_program_init(pio, sm, offset, PIN_BASE, CLKDIV);
     pio_sm_clear_fifos(pio, sm);
     pio_sm_restart(pio, sm);
-    pio_sm_put_blocking(pio, sm, 8);  // Send 50 pulse pairs
+    pio_sm_put_blocking(pio, sm, 8);  // Send pulse pairs
     pio_sm_set_enabled(pio, sm, true);
     //printf("Pulses triggered...\n");
     uint32_t done = pio_sm_get_blocking(pio, sm);
     //printf("Pulse sequence completed. PIO response: %u\n", done);
 }
+
 
 uint16_t read_stable_adc(int samples) {
     uint32_t sum = 0;
@@ -32,27 +31,6 @@ uint16_t read_stable_adc(int samples) {
     }
     return sum / samples;
 }
-
-
-// new loop interrupt used to start timer. previously no interrupt used. can save a uS maybe i thinki sued it
-// ignore this im still in the making and not getting paid yooo.. jk its fun.. but goal is to:
-// not use ADC and only use GPIO, for pins use memory map i/o & interrup handler -> make to h file as a lib and never use it again muahaha 
-int main(){
-    stdio_init_all();
-    while (1){
-        uint64_t t1 = 0;
-        uint8_t raw = 0;
-        const int n_samples = 
-}
-
-
-
-
-
-
-
-
-
 int main() {
     stdio_init_all();
     adc_init();
@@ -84,7 +62,6 @@ int main() {
         sleep_ms(10);
     }
 }
-// it fucking works!!
-// now instead of taking away the time for pulses i should make a interrupt to the timer for a better stream. yay!
+
 
 
