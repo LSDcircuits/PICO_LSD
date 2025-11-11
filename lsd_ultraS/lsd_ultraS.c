@@ -301,3 +301,63 @@ int main() {
     }
 }
 
+
+
+
+//  extra function got to work on thsi also td
+
+
+double ultrasound(){
+
+    stdio_init_all();
+
+    uint8_t sample = 100;
+    const uint8_t ECHO_PIN = 29;
+    double distance_cm[sample] = {0};
+    const double SOUND_SPEED_CM_PER_US = 0.0344;
+
+    gpio_init(ECHO_PIN);
+    gpio_set_function(ECHO_PIN, GPIO_FUNC_SIO);  // Force SIO function 
+    gpio_set_dir(ECHO_PIN, GPIO_IN); // Input
+    gpio_disable_pulls(ECHO_PIN);    // No pulls
+    gpio_set_input_enabled(ECHO_PIN, true);  // Enable input buffer
+
+    for(int i = 0; i < sample; i++ ){
+        // Send the pulse
+        pulse_setup();
+        uint64_t t0 = read_timer_raw_macro2();  // Immediately after pulse sent
+
+        // Wait for echo rising edge (GPIO goes HIGH)
+        uint64_t timeout = t0 + 50000;  // 50 ms timeout
+        uint64_t t1 = 0;
+        uint8_t skip = 0;
+        while (gpio_get(ECHO_PIN) == 0) {
+            if (read_timer_raw_macro2() > timeout) {
+                printf("Timeout waiting for echo (rising edge)\n");
+                goto done;
+            }
+        }
+        t1 = read_timer_raw_macro2();  // Time when echo is detected (rising edge)
+        skip = 1; 
+
+        // Calculate time difference and distance
+        double dt_us = (double)(t1 - t0);
+        distance_cm[i]= (dt_us * SOUND_SPEED_CM_PER_US) / 2.0;
+        printf("Echo delay = %.0f us → distance = %.2f cm\n", dt_us, distance_cm[i]);
+
+    done: // skips done and resets i so no out of range measured get in
+        if(skip == 0){
+            i = 0;
+        } else {
+            i = i;
+        }
+        sleep_ms(10);  // avoid flooding
+
+    } return (distance_cm[1]); 
+}
+
+
+
+
+
+
