@@ -53,7 +53,8 @@ static void imu_init(void) {
     gpio_init(PIN_CS); gpio_set_dir(PIN_CS, GPIO_OUT); cs_high();
 
     sleep_ms(5);
-
+   
+    // reg_write(register value, reghister to write to)
     // Basic interface setup: BDU=1, IF_INC=1, 4-wire (SIM=0)
     reg_write(CTRL3_C, 0b01000100);   // 0x44
 
