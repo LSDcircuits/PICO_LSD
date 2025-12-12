@@ -1,4 +1,4 @@
-# PICO_LSD
+look# PICO_LSD
 low level repository containing functions and libraries to be used on the RP2040
 
 1. timer functions c
@@ -25,7 +25,7 @@ characters and can be useful to monior readings from a device, (working on a UI 
 3. lsm6s3_lsd c
 
 this file contains the logic used to get raw data from this IMU. working on:
-
+- hsing struct to create scaling, raw, updatd data in struct. 
 - making a library
 - getting different power modes and sensitivity
 - applying kallman filter & quaternions as additional fucntions
