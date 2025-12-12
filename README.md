@@ -9,7 +9,7 @@ quite easy to use its based on the rp2040 64 bit timer defined in section (7.6) 
 this func calls the timer regiter values, can be used to find the time difference between measurements
 or generl time based on the clock cycle (245mhz). 
 
-3. PIO_PWM
+3. PIO_PWM (in maintenance) 
 
 In this file i make use of the PIO blocks from the PICO (check 1.3 RPI RP2040 datashet) for adding 8 additional PWM
 ouput pins which take minimal ammount of CPU clock cylces to keep running parallel to Core. useful for:
