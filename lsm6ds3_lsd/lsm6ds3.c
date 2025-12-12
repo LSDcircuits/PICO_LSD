@@ -54,7 +54,7 @@ static void imu_init(void) {
 
     sleep_ms(5);
    
-    // reg_write(register value, reghister to write to)
+    // reg_write(register to write to, reghister val)
     // Basic interface setup: BDU=1, IF_INC=1, 4-wire (SIM=0)
     reg_write(CTRL3_C, 0b01000100);   // 0x44
 
