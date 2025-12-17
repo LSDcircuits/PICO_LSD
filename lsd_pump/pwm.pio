@@ -12,3 +12,16 @@ noset:
 skip:
     jmp y-- countloop      ; Loop until Y hits 0, then pull a fresh PWM value from FIFO y == 0, y != < 0. program restart. 
 
+
+
+; <<<<---------------- frequency calculation ---------------------->>>>
+
+;PIO freq: 125MHZ
+;PWM instruction set: 3
+;slits: (min resolution) = 0.0000416s, 41,6ns
+;pwm_freq = (PIO_freq / PWM_sintrcution_set) * period
+;on time = (PIO_fre/ PWM_instrcution_sert) * level
+;off t   = (PIO_fre/ PWM_instruction_set) (period - level)
+
+
+
