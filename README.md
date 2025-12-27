@@ -36,7 +36,10 @@ this file contains the logic used to get raw data from this IMU. working on:
 - applying quaternions & other rotation methods
 - making expandable for other usage
 
-  
+4. lsd_pid
+
+this file contains PID loops, from a simple pid loop with only variable input to PID with expandable struct data. this can be used for the temperature controll of a hotplate or to balance a device. (in progress with the PWM lib).
+
 
 
 
