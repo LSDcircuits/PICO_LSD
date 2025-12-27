@@ -17,9 +17,9 @@ ouput pins which take minimal ammount of CPU clock cylces to keep running parall
 - Time sensitive PWM signaling for real time operation such as for drone ESC's or controlling stepper drivers.
 - To add extra PWM outputs, the RP2040 has 16 PWM out pins, adding these puts it to 24.
 
-2. 7789_LSD c
+2. SSD1306_LSD
 
-his file contains libraries used to drive LCD screens which use the S7789 driver for graphics, its used to present
+his file contains libraries used to drive LCD screens which use the SSD1306 driver for graphics, its used to present
 characters and can be useful to monior readings from a device, (working on a UI lib next).
 
 3. lsm6s3_lsd c
