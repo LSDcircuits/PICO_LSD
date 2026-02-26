@@ -1,4 +1,4 @@
-// made by Lorenzo Salvatore Daidone 
+
 // here are just exmaples of timer functions to be used for integration 
 // its a work in prograss to be a ble to in the future make faster code for my projects
 
