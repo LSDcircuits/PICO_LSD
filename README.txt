@@ -1,5 +1,5 @@
-look# PICO_LSD
-low level repository containing functions and libraries to be used on the RP2040
+PICO_LSD
+Repository containing functions and libraries to be used on the RP2040
 
 1. timer functions c
 
@@ -7,7 +7,7 @@ this file contains functions used for header files or funcs to use on the main s
 quite easy to use its based on the rp2040 64 bit timer defined in section (7.6) on datasheet.
 this func calls the timer regiter values, can be used to find the time difference between measurements
 or general time based on the clock cycle (245mhz). 
-same as timer function, the lib is a good example of the usage of memory i/o via the bus fabric.
+same as timer function, the lib is a good example of the usage of memory i/o.
 
 3. PIO_PWM (in maintenance) 
 
@@ -19,8 +19,9 @@ ouput pins which take minimal ammount of CPU clock cylces to keep running parall
 
 2. SSD1306_LSD
 
-his file contains libraries used to drive LCD screens which use the SSD1306 driver for graphics, its used to present
-characters and can be useful to monior readings from a device.
+This file contains libraries used to drive LCD screens which use the SSD1306 driver for graphics, its used to present
+characters and can be useful to monior readings from a device. Still alot can be dont to this library before its comple
+neveheless its still useful Already. 
 
 works for: 
 - printing chars
@@ -28,7 +29,7 @@ works for:
 
 3. lsm6s3_lsd c
 
-this file contains the logic used to get raw data from this IMU. working on:
+This file contains the logic used to get raw data from this IMU. working on: (im fustrated with my self i havent finished it :( )
 
 - using structures for data. 
 - making a library
@@ -36,7 +37,7 @@ this file contains the logic used to get raw data from this IMU. working on:
 - applying quaternions & other rotation methods
 - making expandable for other usage
 
-4. lsd_pid
+4. lsd_pid (im fustrated with my self i havent finished it :( ) same here bb 
 
 this file contains PID loops, from a simple pid loop with only variable input to PID with expandable struct data. this can be used for the temperature controll of a hotplate or to balance a device. (in progress with the PWM lib).
 
