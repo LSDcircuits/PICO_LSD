@@ -1,5 +1,5 @@
 PICO_LSD
-Repository containing functions and libraries to be used on the RP2040
+Repository containing functions and libraries to be used on the RP2040 // note for self: seperate projecta from libs, then ue the libs in projects. 
 
 1. timer functions c
 
