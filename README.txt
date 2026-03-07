@@ -6,11 +6,9 @@ Repository containing functions and libraries to be used on the RP2040
 - Call 64bit counter for timing
 - 125MHZ 
 
-3. PIO_PWM (in maintenance) 
+3. PIO_PWM
 
-In this file i make use of the PIO blocks from the PICO (check 1.3 RPI RP2040 datashet) for adding 8 additional PWM
-ouput pins which take minimal ammount of CPU clock cylces to keep running parallel to Core. useful for:
-
+Ouptut_PWM
 - Time sensitive PWM signaling for real time operation such as for drone ESC's or controlling stepper drivers.
 - To add extra PWM outputs, the RP2040 has 16 PWM out pins, adding these puts it to 24.
 
