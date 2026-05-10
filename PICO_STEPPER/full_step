@@ -1,0 +1,58 @@
+#include "pico/stdlib.h"
+
+#define A1 2
+#define B1 3
+#define A2 4
+#define B2 5
+#define time_s 2
+
+//VISUAL REPRESENATION FOR MOTOR STEPS BELOW 
+
+// | STEP  |A1 B1 A2 B2 |
+// |  1    |1  0  0  0  |
+// |  2    |0  1  0  0  |
+// |  3    |0  0  1  0  |
+// |  4    |0  0  0  1  |
+ 
+int main() {
+    
+    gpio_init(A1);
+    gpio_init(A2);
+    gpio_init(B1);
+    gpio_init(B2);
+    gpio_set_dir(A1, GPIO_OUT);
+    gpio_set_dir(A2, GPIO_OUT);
+    gpio_set_dir(B1, GPIO_OUT);
+    gpio_set_dir(B2, GPIO_OUT);
+
+    while(1) {
+    
+
+        gpio_put(A1, 1);
+        gpio_put(B1, 0);
+        gpio_put(A2, 0);
+        gpio_put(B2, 0);
+        sleep_ms(time_s);
+
+        gpio_put(A1, 0);
+        gpio_put(B1, 1);
+        gpio_put(A2, 0);
+        gpio_put(B2, 0);
+        sleep_ms(time_s);
+
+        gpio_put(A1, 0);
+        gpio_put(B1, 0);
+        gpio_put(A2, 1);
+        gpio_put(B2, 0);
+        sleep_ms(time_s);
+
+        gpio_put(A1, 0);
+        gpio_put(B1, 0);
+        gpio_put(A2, 0);
+        gpio_put(B2, 1);
+        sleep_ms(time_s);
+
+
+    }
+    return 0;
+}

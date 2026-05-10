@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include "pico/stdlib.h"
+
+#define A1 2
+#define B1 3
+#define A2 4
+#define B2 5
+#define IN1 6
+#define IN2 7
+#define time_s 1500
+#define n 1
+#define ARRAY_SIZE 2
+#define step_delay 1500
+#define gain 1500
+// VISUAL REPRESENATION FOR MOTOR STEPS BELOW 
+// | STEP  |A1 B1 A2 B2 |
+// |  1    |1  0  0  0  |
+// |  2    |0  1  0  0  |
+// |   3   |0  0  1  0  |
+// |   4   |0  0  0  1  |
+int main() {
+    stdio_init_all(); 
+    // define pin directories
+    gpio_init(IN1);
+    gpio_init(IN2);
+    gpio_init(A1);
+    gpio_init(A2);
+    gpio_init(B1);
+    gpio_init(B2);
+    gpio_set_dir(A1, GPIO_OUT);
+    gpio_set_dir(A2, GPIO_OUT);
+    gpio_set_dir(B1, GPIO_OUT);
+    gpio_set_dir(B2, GPIO_OUT);
+    gpio_set_dir(IN1, GPIO_IN);
+    gpio_set_dir(IN2, GPIO_IN);
+
+
+    uint32_t pulse_high, pulse_low, PulseL, Duty_cycle, speed, dutycycle;
+    uint64_t start_time, end_time;
+    // Measure pulse high duration
+    while(gpio_get(IN1) == 0); // Wait for the signal to go high
+    start_time = get_absolute_time();
+    while(gpio_get(IN1) == 1); // Wait for the signal to go low
+    end_time = get_absolute_time();
+    pulse_high = end_time - start_time; // Pulse high duration
+
+    // Measure pulse low duration
+    while(gpio_get(IN1) == 1); // Wait for the signal to go high
+    start_time = get_absolute_time();
+    while(gpio_get(IN1) == 0); // Wait for the signal to go low
+    end_time = get_absolute_time();
+    pulse_low = end_time - start_time; // Pulse low duration
+
+    PulseL = pulse_high + pulse_low;
+    dutycycle = (pulse_high/PulseL); // convert pwm directly to stepper
+    speed = 1500 + (dutycycle * gain);
+
+   
+    
+
+    while(1) {
+
+        printf("Pulse high: %d us\n", pulse_high);
+        printf("Pulse low: %d us\n", pulse_low);
+
+
+
+
+        if(gpio_get(IN2) == 1){
+        // | STEP  |A1 B1 A2 B2 |
+        // |  1    |1  0  0  0  |
+             gpio_put(A1, 1);
+             gpio_put(B1, 0);
+             gpio_put(A2, 0);
+             gpio_put(B2, 0);
+             sleep_us(speed);
+
+             gpio_put(A1, 0);
+             gpio_put(B1, 1);
+             gpio_put(A2, 0);
+             gpio_put(B2, 0);
+             sleep_us(speed);
+
+             gpio_put(A1, 0);
+             gpio_put(B1, 0);
+             gpio_put(A2, 1);
+             gpio_put(B2, 0);
+             sleep_us(speed);
+
+             gpio_put(A1, 0);
+             gpio_put(B1, 0);
+             gpio_put(A2, 0);
+             gpio_put(B2, 1);
+             sleep_us(speed); 
+        } 
+        
+        if(gpio_get(IN2) == 0) {
+        // | STEP  |A1 B1 A2 B2 |
+        // |  1    |1  0  0  0  |
+             gpio_put(A1, 0);
+             gpio_put(B1, 0);
+             gpio_put(A2, 0);
+             gpio_put(B2, 1);
+             sleep_us(speed);
+
+             gpio_put(A1, 0);
+             gpio_put(B1, 0);
+             gpio_put(A2, 1);
+             gpio_put(B2, 0);
+             sleep_us(speed);
+
+             gpio_put(A1, 0);
+             gpio_put(B1, 1);
+             gpio_put(A2, 0);
+             gpio_put(B2, 0);
+             sleep_us(speed);
+
+             gpio_put(A1, 1);
+             gpio_put(B1, 0);
+             gpio_put(A2, 0);
+             gpio_put(B2, 0);
+             sleep_us(speed); 
+        }
+    }
+
+    return 0;
+}

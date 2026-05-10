@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include "pico/stdlib.h"
+
+#define A1 0
+#define B1 1 
+#define A2 2
+#define B2 3
+#define IN1 4
+#define IN2 5
+
+#define time_s 800 //600 for max rpm and 4800 for min
+//VISUAL REPRESENATION FOR MOTOR STEPS BELOW 
+// | STEP  |A1 B1 A2 B2 |
+// |  1    |1  1  0  0  |
+// |  2    |0  1  1  0  |
+// |  3    |0  0  1  1  |
+// |  4    |2  0  0  1  |
+int stepposition = 0; //set to zero
+//confusing but clean 
+void setStep(int a1, int b1, int a2, int b2){
+    gpio_put(A1, a1);
+    gpio_put(B1, b1);
+    gpio_put(A2, a2);
+    gpio_put(B2, b2);
+    sleep_us(time_s);
+
+}
+//this void loop allows a linear drive from its prevoius pin state
+void stepperL(){
+    stepposition = (stepposition - 1 + 4) % 4; //move prev and wrap
+    switch(stepposition){ 
+        case 0: setStep(1, 0, 0, 1); break;
+        case 1: setStep(0, 0, 1, 1); break;
+        case 2: setStep(0, 1, 1, 0); break;
+        case 3: setStep(1, 1, 0, 0); break;
+    }
+
+}
+
+void stepperR(){
+    stepposition = (stepposition + 1) % 4; //move prev and wrap
+    switch(stepposition){ 
+        case 0: setStep(1, 0, 0, 1); break;
+        case 1: setStep(0, 0, 1, 1); break;
+        case 2: setStep(0, 1, 1, 0); break;
+        case 3: setStep(1, 1, 0, 0); break;
+    }
+
+}
+int main() {
+    gpio_init(IN1);
+    gpio_init(IN2);
+    gpio_init(A1);
+    gpio_init(A2);
+    gpio_init(B1);
+    gpio_init(B2);
+    gpio_set_dir(IN1, GPIO_IN);
+    gpio_set_dir(IN2, GPIO_IN);
+    gpio_set_dir(A1, GPIO_OUT);
+    gpio_set_dir(A2, GPIO_OUT);
+    gpio_set_dir(B1, GPIO_OUT);
+    gpio_set_dir(B2, GPIO_OUT);
+
+    while(1){
+        int value1 = gpio_get(IN2);
+        int value = gpio_get(IN1);
+        if (value == 1 && value1 == 1){
+            stepperR();
+        } 
+        if (value == 0 && value1 == 1){
+            stepperL();
+        }
+    }
+}
