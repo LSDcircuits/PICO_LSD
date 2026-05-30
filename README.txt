@@ -31,6 +31,8 @@ This file contains the logic used to get raw data from this IMU. working on: (im
 - getting different power modes and sensitivity
 - applying quaternions & other rotation methods
 - making expandable for other usage
+note: havent used it :) just tested. 
+
 
 4. lsd_pid  
 
