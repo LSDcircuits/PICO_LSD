@@ -49,3 +49,13 @@ to be implemented:
 - includes schematic example for the LD293D
 
 
+6. LSD PUMP
+
+- used to drive a Hbridge for a motor used on pump, inputsa come from potentiometer and enabling switch to run pump. Ouput goes through PIO PWM 
+  for enabling, Display on SSD1306 LCD 0-100%. 
+
+
+
+
+
+
