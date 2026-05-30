@@ -41,5 +41,9 @@ to be implemented:
 - PIO_ASM based for low freq PD controller / figuring out boolean operations for the limited memory space. 
 
 
-lokey this just my pico dump w some tools 
+5. PICO stepper
+
+- used for controlling stepper motors for motion.
+- includes schematic example for the LD293D
+
 
