@@ -37,7 +37,7 @@ This file contains the logic used to get raw data from this IMU. working on: (im
 this file contains PID loops, from a simple pid loop with only variable input to PID with expandable struct data. this can be used for the temperature controll of a hotplate or to balance a device. (in progress with the PWM lib using PIO_ASM for direct use on pwm).
 
 to be implemented:
-- tuning using root locus
+- tuning using root locus, combining MCU_control repo with this file.
 - PIO_ASM based for low freq PD controller / figuring out boolean operations for the limited memory space. 
 
 
