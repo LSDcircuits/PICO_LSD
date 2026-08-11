@@ -1,0 +1,12 @@
+// make the file
+mkdir {file name}
+
+// download and check the SDK
+git clone https://github.com/raspberrypi/pico-sdk.git
+cd pico-sdk
+git checkout 2.0.0        # or later; 2.0.0 is the first with RP2350 support
+git submodule update --init --recursive
+
+// chekc gcc
+arm-none-eabi-gcc --version
+
