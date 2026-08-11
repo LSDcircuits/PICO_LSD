@@ -10,3 +10,16 @@ git submodule update --init --recursive
 // chekc gcc
 arm-none-eabi-gcc --version
 
+
+// COPY EXTERNAL TO PROJECT FILE
+
+// Cmake project
+# 1. Set the SDK path (do this once per terminal session, or put it in your .bashrc)
+export PICO_SDK_PATH=/path/to/pico-sdk
+
+# 2. Generate build files (creates the build/ directory automatically)
+cmake -S . -B build -DPICO_BOARD=pico2
+
+# 3. Compile
+cmake --build build
+
