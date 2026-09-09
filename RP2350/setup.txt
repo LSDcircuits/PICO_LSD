@@ -23,3 +23,10 @@ cmake -S . -B build -DPICO_BOARD=pico2
 # 3. Compile
 cmake --build build
 
+
+
+// isuess, with Cmake
+ cd / to pico sdk/ 
+git pull origin master
+git submodule update --init --recursive
+
